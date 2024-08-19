@@ -1,11 +1,12 @@
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
-import './Register.scss';
 import { useEffect, useState } from 'react';
 
+import { registerNewUser } from '../../services/userService';
+import './Register.scss';
+
 function Register() {
+    const navigate = useNavigate()
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [username, setUsername] = useState('');
@@ -72,21 +73,22 @@ function Register() {
             }));
             return false;
         }
-
         return true;
     };
 
     const handleRegister = async () => {
         const isValid = isValidInputs();
+        const userData = { email, phone, username, password };
 
         if (isValid) {
-            const userData = { email, phone, username, password };
-            
-            try {
-                axios.post('http://localhost:8080/api/v1/register', userData);
-                toast.success('Đăng ký thành công!');
-            } catch (error) {
-                toast.error('Đăng ký thất bại!');
+            const response = await registerNewUser(userData) 
+            const serverData = response?.data
+
+            if (+serverData.EC === 0) {
+                toast.success(serverData.EM)
+                navigate('/login')
+            } else {
+                toast.error(serverData.EM)
             }
         }
     };
