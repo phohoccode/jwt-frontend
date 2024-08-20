@@ -1,29 +1,30 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import _ from 'lodash'
 
-import Home from './pages/Home/Home'
 import Nav from "./components/Navigation/Nav"
-import Login from './components/Login/Login'
-import './App.scss'
-import Register from './components/Register/Register'
+import { useEffect, useState } from 'react'
+import AppRouter from './routes/AppRouter'
 
 const App = () => {
+    const [account, setAccount] = useState({})
+
+    useEffect(() => {
+        const session = JSON.parse(sessionStorage.getItem('account'))
+
+        if (session) {
+            setAccount(session)
+        }
+    }, [])
+
     return (
         <div >
             <Router>
                 <Nav />
-                <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/news' element={<Home />} />
-                    <Route path='/about' element={<Home />} />
-                    <Route path='/contact' element={<Home />} />
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/register' element={<Register />} />
-                    <Route path='*' element={<Home />} />
-                </Routes>
+                <AppRouter />
             </Router>
-            
+
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

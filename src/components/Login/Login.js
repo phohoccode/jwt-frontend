@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { loginUser } from '../../services/userService';
 import './Login.scss'
 
 function Login() {
+    const navigate = useNavigate()
     const [valueLogin, setValueLogin] = useState('')
     const [password, setPassword] = useState('')
     const [defaultValid, setDefaultValid] = useState({
@@ -13,6 +14,14 @@ function Login() {
         isValidPass: true,
     });
     const [objCheckInput, setObjCheckInput] = useState(defaultValid);
+
+    useEffect(() => {
+        const session = JSON.parse(sessionStorage.getItem('account'))
+
+        if (session) {
+            navigate('/')
+        }
+    }, [])
 
     const handleLogin = async () => {
         setObjCheckInput(defaultValid)
@@ -36,12 +45,33 @@ function Login() {
         }
 
         const userData = { valueLogin, password }
-        await loginUser(userData)
+        const response = await loginUser(userData)
+
+        if (response && response.data && response.data.EC === 0) {
+            const data = {
+                isAuthenticated: true,
+                token: 'fake token'
+            }
+
+            sessionStorage.setItem('account', JSON.stringify(data))
+
+            toast.success('Đăng nhập thành công!')
+            navigate('/users')
+            window.location.reload()
+        } else {
+            toast.error('Thông tin tài khoản không đúng!')
+        }
+    }
+
+    const hanlePressEnter = (e) => {
+        if (e.code === 'Enter') {
+            handleLogin()
+        }
     }
 
     return (
         <div className='container'>
-            <div className='row px-3 px-sm-0 '>
+            <div className='row px-3 px-sm-0'>
                 <div className='content-left col-sm-8 d-sm-block d-none'>
                     <h2 className='brand'>
                         PHOHOCCODE
@@ -62,6 +92,7 @@ function Login() {
                     />
                     <input
                         value={password}
+                        onKeyDown={(e) => hanlePressEnter(e)}
                         onChange={(e) => setPassword(e.target.value)}
                         name='password' id='password' placeholder='Password' type='password'
                         className={
