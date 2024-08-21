@@ -16,7 +16,7 @@ const Nav = () => {
     return (
         <>
             {isShow &&
-                <ul>
+                <ul className='container'>
                     <li>
                         <NavLink to="/">Home</NavLink>
                     </li>
