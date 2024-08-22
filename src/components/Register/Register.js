@@ -66,7 +66,7 @@ function Register() {
         }
 
         if (password !== confirmPassword) {
-            toast.error('Mật khẩu không trùng!');
+            toast.error('Mật khẩu không trùng khớp!');
             setObjCheckInput((prevState) => ({
                 ...prevState,
                 isValidConfirmPass: false,
@@ -98,16 +98,16 @@ function Register() {
             <div className='row px-3 px-sm-0 '>
                 <div className='content-left col-sm-8 d-sm-block d-none'>
                     <h2 className='brand'>PHOHOCCODE</h2>
-                    <p className='description'>Phở học fullstack hoidanit</p>
+                    <p className='description'>Khoá học fullstack jwt trên youtube hoidanit</p>
                 </div>
                 <div className='content-right col-sm-4 d-flex flex-column gap-3'>
-                    <h3 className='text-center'>Register</h3>
+                    <h3 className='text-center'>Đăng ký tài khoản</h3>
                     <input
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         name='username'
                         id='username'
-                        placeholder='Username'
+                        placeholder='Tên người dùng'
                         type='text'
                         className='form-control'
                     />
@@ -127,7 +127,7 @@ function Register() {
                         onChange={(e) => setPhone(e.target.value)}
                         name='phone'
                         id='phone'
-                        placeholder='Phone number'
+                        placeholder='Số điện thoại'
                         type='text'
                         className={
                             objCheckInput.isValidPhone ? 'form-control' : 'form-control is-invalid'
@@ -138,7 +138,7 @@ function Register() {
                         onChange={(e) => setPassword(e.target.value)}
                         name='password'
                         id='password'
-                        placeholder='Password'
+                        placeholder='Mật khẩu'
                         type='password'
                         className={
                             objCheckInput.isValidPass ? 'form-control' : 'form-control is-invalid'
@@ -149,7 +149,7 @@ function Register() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         name='retypepassword'
                         id='retypepassword'
-                        placeholder='Retype password'
+                        placeholder='Nhập lại mật khẩu'
                         type='password'
                         className={
                             objCheckInput.isValidConfirmPass
@@ -158,12 +158,12 @@ function Register() {
                         }
                     />
                     <button onClick={() => handleRegister()} className='btn btn-primary'>
-                        Register
+                        Đăng ký
                     </button>
                     <hr />
                     <div className='d-flex justify-content-center'>
                         <Link to={'/login'} className='btn btn-success'>
-                            Already have an account?
+                            Đã có tài khoản?
                         </Link>
                     </div>
                 </div>

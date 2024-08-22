@@ -7,15 +7,15 @@ function ModalDelete(props) {
         <>
             <Modal show={props.show} onHide={props.handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Delete user</Modal.Title>
+                    <Modal.Title>Xoá người dùng</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>You sure delete user {props.dataModal.username}</Modal.Body>
+                <Modal.Body>Bạn chắc chắn xoá người dùng {props.dataModal.username}</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={props.handleClose}>
-                        Close
+                        Huỷ
                     </Button>
-                    <Button variant="primary" onClick={props.confirmDeleteUser}>
-                        Delete
+                    <Button variant="danger" onClick={props.confirmDeleteUser}>
+                        Xoá
                     </Button>
                 </Modal.Footer>
             </Modal>

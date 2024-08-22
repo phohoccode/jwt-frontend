@@ -81,11 +81,11 @@ function Login() {
                     </p>
                 </div>
                 <div className='content-right col-sm-4 d-flex flex-column gap-3'>
-                    <h3 className='text-center'>Login</h3>
+                    <h3 className='text-center'>Đăng nhập</h3>
                     <input
                         value={valueLogin}
                         onChange={(e) => setValueLogin(e.target.value)}
-                        name='username' id='username' placeholder='Email address or phone number' type='text'
+                        name='username' id='username' placeholder='Địa chỉ email hoặc số điện thoại' type='text'
                         className={
                             objCheckInput.isValidValueLogin ? 'form-control' : 'form-control is-invalid'
                         }
@@ -94,16 +94,16 @@ function Login() {
                         value={password}
                         onKeyDown={(e) => hanlePressEnter(e)}
                         onChange={(e) => setPassword(e.target.value)}
-                        name='password' id='password' placeholder='Password' type='password'
+                        name='password' id='password' placeholder='Mật khẩu' type='password'
                         className={
                             objCheckInput.isValidPass ? 'form-control' : 'form-control is-invalid'
                         }
                     />
-                    <button onClick={() => handleLogin()} className='btn btn-primary'>Login</button>
-                    <a href='#' className='text-center'>Forgotten password?</a>
+                    <button onClick={() => handleLogin()} className='btn btn-primary'>Đăng nhập</button>
+                    <a href='#' className='text-center'>Quên mật khẩu?</a>
                     <hr />
                     <div className='d-flex justify-content-center'>
-                        <Link to={'/register'} className='btn btn-success'>Create new account</Link>
+                        <Link to={'/register'} className='btn btn-success'>Tạo tài khoản mới</Link>
                     </div>
                 </div>
             </div>

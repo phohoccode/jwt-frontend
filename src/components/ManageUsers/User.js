@@ -12,10 +12,14 @@ function User() {
     const [currentLimit, setCurrentLimit] = useState(2)
     const [totalPages, setTotalPages] = useState(0)
 
+    // modal delete
     const [isShowModalDelete, setIsShowModalDelete] = useState(false)
     const [dataModal, setDataModal] = useState({})
-
+    
+    // modal update
+    const [dataModalUser, setDataModalUser] = useState({})
     const [isShowModalUser, setIsShowModalUser] = useState(false)
+    const [actionModalUser, setActionModalUser] = useState('')
 
     useEffect(() => {
         fetchUsers();
@@ -23,7 +27,6 @@ function User() {
 
     const fetchUsers = async () => {
         const response = await fetchAllUser(currentPage, currentLimit);
-
         if (response && response.data && response.data.EC === 0) {
             setTotalPages(response.data.DT.totalPages)
             setListUsers(response.data.DT.users);
@@ -56,8 +59,21 @@ function User() {
         }
     }
 
-    const onHideModalUser = () => {
+    const onHideModalUser = async () => {
+        setDataModalUser({})
         setIsShowModalUser(false)
+        await fetchUsers()
+    }
+
+    const handleCreateUser = () => {
+        setIsShowModalUser(true)
+        setActionModalUser('CREATE')
+    }
+
+    const handleEditUser = (user) => {
+        setActionModalUser('UPDATE')
+        setDataModalUser(user)
+        setIsShowModalUser(true)
     }
 
     return (
@@ -65,23 +81,24 @@ function User() {
             <div className='manage-users-container container'>
                 <div className='user-header'>
                     <div className='title'>
-                        <h3>Table Users</h3>
+                        <h3>Quản lý người dùng</h3>
                     </div>
                     <div className='actions mt-4 mb-4'>
-                        <button className='btn btn-success me-2'>Refresh</button>
-                        <button onClick={() => setIsShowModalUser(true)} className='btn btn-primary'>Add new user</button>
+                        <button className='btn btn-success me-2'>Làm mới</button>
+                        <button onClick={() => handleCreateUser()} className='btn btn-primary'>Thêm người dùng</button>
                     </div>
                 </div>
                 <div className='user-body'>
                     <table className="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">No</th>
+                                <th scope="col">STT</th>
                                 <th scope="col">Id</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Group</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col">
+                                Tên người dùng</th>
+                                <th scope="col">Nhóm</th>
+                                <th scope="col">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,16 +106,18 @@ function User() {
                                 <>
                                     {listUsers.map((user, index) => (
                                         <tr key={index}>
-                                            <th scope="row">{index + 1}</th>
+                                            <th scope="row">{(currentPage - 1) * currentLimit + index + 1}</th>
                                             <td>{user.id}</td>
                                             <td>{user.email}</td>
                                             <td>{user.username}</td>
                                             <td>{user.Group ? user.Group.name : ''}</td>
                                             <td>
-                                                <button className='btn btn-warning me-2'>Edit</button>
+                                                <button
+                                                    onClick={() => handleEditUser(user)}
+                                                className='btn btn-warning me-2'>Chỉnh sửa</button>
                                                 <button
                                                     onClick={() => handleDeleteUser(user)}
-                                                    className='btn btn-danger'>Delete</button>
+                                                    className='btn btn-danger'>Xoá</button>
                                             </td>
                                         </tr>
                                     ))}
@@ -145,9 +164,10 @@ function User() {
             />
 
             <ModalUser 
-                title='Thêm người dùng mới'
                 onHide={onHideModalUser}
                 show={isShowModalUser}
+                action={actionModalUser}
+                dataModalUser={dataModalUser}
             />
         </>
     );
