@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
 import _ from 'lodash'
 
-import { fetchGroup, createNewUser } from '../../services/userService';
+import { fetchGroup, createNewUser, updateCurrentUser } from '../../services/userService';
 import { useEffect, useState } from 'react';
 
 function ModalUser(props) {
@@ -54,15 +54,15 @@ function ModalUser(props) {
     const getGroup = async () => {
         const response = await fetchGroup()
 
-        if (response && response.data && response.data.EC === 0) {
-            setUserGroup(response.data.DT)
+        if (response && response.EC === 0) {
+            setUserGroup(response.DT)
 
-            if (response.data.DT && response.data.DT.length > 0) {
-                const groups = response.data.DT
+            if (response.DT && response.DT.length > 0) {
+                const groups = response.DT
                 setUserData({ ...userData, group: groups[0].id })
             }
         } else {
-            toast.error(response.data.EM)
+            toast.error(response.EM)
         }
     }
 
@@ -73,6 +73,10 @@ function ModalUser(props) {
     }
 
     const checkValidInputs = () => {
+        if (action === 'UPDATE') {
+            return true
+        }
+
         setValidInpus(validInputsDefault)
 
         const arrInputs = ['email', 'username', 'phone', 'password', 'address']
@@ -101,17 +105,19 @@ function ModalUser(props) {
         const check = checkValidInputs()
 
         if (check) {
-            const response = await createNewUser({ ...userData, groupId: userData['group'] })
+            const response = action === 'CREATE' ?
+                await createNewUser({ ...userData, groupId: userData['group'] }) :
+                await updateCurrentUser({ ...userData, groupId: userData['group'] })
 
-            if (response.data && response.data.EC === 0) {
-                toast.success(response.data.EM)
+            if (response && response.EC === 0) {
+                toast.success(response.EM)
                 props.onHide()
                 setUserData({ ...defaultUserData, group: userGroup[0].id })
             } else {
                 const _validInput = _.cloneDeep(validInputsDefault)
-                _validInput[response.data.DT] = false
+                _validInput[response.DT] = false
                 setValidInpus(_validInput)
-                toast.error(response.data.EM)
+                toast.error(response.EM)
             }
         }
     }
@@ -134,7 +140,7 @@ function ModalUser(props) {
                             <label className='form-label'>Email</label>
                             <input
                                 disabled={action === 'UPDATE'}
-                                value={userData.email}
+                                value={userData.email || ''}
                                 onChange={(e) => handleOnchangeInput(e.target.value, 'email')}
                                 className={
                                     validInpus.email ? 'form-control' : 'form-control is-invalid'
@@ -144,7 +150,7 @@ function ModalUser(props) {
                         <div className='col-6 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Tên người dùng</label>
                             <input
-                                value={userData.username}
+                                value={userData.username || ''}
                                 onChange={(e) => handleOnchangeInput(e.target.value, 'username')}
                                 className={
                                     validInpus.username ? 'form-control' : 'form-control is-invalid'
@@ -155,7 +161,7 @@ function ModalUser(props) {
                             <label className='form-label'>Số điện thoại</label>
                             <input
                                 disabled={action === 'UPDATE'}
-                                value={userData.phone}
+                                value={userData.phone || ''}
                                 onChange={(e) => handleOnchangeInput(e.target.value, 'phone')}
                                 className={
                                     validInpus.phone ? 'form-control' : 'form-control is-invalid'
@@ -165,7 +171,7 @@ function ModalUser(props) {
                         <div className='col-6 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Mật khẩu</label>
                             <input
-                                value={userData.password}
+                                value={userData.password || ''}
                                 onChange={(e) => handleOnchangeInput(e.target.value, 'password')}
                                 className={
                                     validInpus.password ? 'form-control' : 'form-control is-invalid'
@@ -175,7 +181,7 @@ function ModalUser(props) {
                         <div className='col-12 mt-3 form-group'>
                             <label className='form-label'>Địa chỉ</label>
                             <input
-                                value={userData.address}
+                                value={userData.address || ''}
                                 onChange={(e) => handleOnchangeInput(e.target.value, 'address')} className={
                                     validInpus.address ? 'form-control' : 'form-control is-invalid'
                                 }

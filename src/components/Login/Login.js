@@ -47,7 +47,7 @@ function Login() {
         const userData = { valueLogin, password }
         const response = await loginUser(userData)
 
-        if (response && response.data && response.data.EC === 0) {
+        if (response && response.EC === 0) {
             const data = {
                 isAuthenticated: true,
                 token: 'fake token'

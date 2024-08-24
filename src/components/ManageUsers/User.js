@@ -27,9 +27,10 @@ function User() {
 
     const fetchUsers = async () => {
         const response = await fetchAllUser(currentPage, currentLimit);
-        if (response && response.data && response.data.EC === 0) {
-            setTotalPages(response.data.DT.totalPages)
-            setListUsers(response.data.DT.users);
+        console.log(response)
+        if (response && response.EC === 0) {
+            setTotalPages(response.DT.totalPages)
+            setListUsers(response.DT.users);
         }
     };
 
@@ -50,12 +51,12 @@ function User() {
     const confirmDeleteUser = async () => {
         const response = await deleteUser(dataModal)
 
-        if (response && response.data.EC === 0) {
-            toast.success(response.data.EM)
+        if (response && response.EC === 0) {
+            toast.success(response.EM)
             await fetchUsers()
             setIsShowModalDelete(false)
         } else {
-            toast.error(response.data.EM)
+            toast.error(response.EM)
         }
     }
 
@@ -76,6 +77,10 @@ function User() {
         setIsShowModalUser(true)
     }
 
+    const handleRefesh = async () => {
+        await fetchUsers()
+    } 
+
     return (
         <>
             <div className='manage-users-container container'>
@@ -84,7 +89,7 @@ function User() {
                         <h3>Quản lý người dùng</h3>
                     </div>
                     <div className='actions mt-4 mb-4'>
-                        <button className='btn btn-success me-2'>Làm mới</button>
+                        <button onClick={() => handleRefesh()} className='btn btn-success me-2'>Làm mới</button>
                         <button onClick={() => handleCreateUser()} className='btn btn-primary'>Thêm người dùng</button>
                     </div>
                 </div>
@@ -95,6 +100,8 @@ function User() {
                                 <th scope="col">STT</th>
                                 <th scope="col">Id</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Giới tính</th>
+                                <th scope="col">Địa chỉ</th>
                                 <th scope="col">
                                 Tên người dùng</th>
                                 <th scope="col">Nhóm</th>
@@ -109,6 +116,8 @@ function User() {
                                             <th scope="row">{(currentPage - 1) * currentLimit + index + 1}</th>
                                             <td>{user.id}</td>
                                             <td>{user.email}</td>
+                                            <td>{user.sex === '1' ? 'Nam' : 'Nữ'}</td>
+                                            <td>{user.address}</td>
                                             <td>{user.username}</td>
                                             <td>{user.Group ? user.Group.name : ''}</td>
                                             <td>
