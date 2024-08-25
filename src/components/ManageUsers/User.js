@@ -27,7 +27,7 @@ function User() {
 
     const fetchUsers = async () => {
         const response = await fetchAllUser(currentPage, currentLimit);
-        console.log(response)
+
         if (response && response.EC === 0) {
             setTotalPages(response.DT.totalPages)
             setListUsers(response.DT.users);
@@ -99,12 +99,13 @@ function User() {
                             <tr>
                                 <th scope="col">STT</th>
                                 <th scope="col">Id</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Giới tính</th>
-                                <th scope="col">Địa chỉ</th>
                                 <th scope="col">
                                 Tên người dùng</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Giới tính</th>
                                 <th scope="col">Nhóm</th>
+                                <th scope="col">Địa chỉ</th>
                                 <th scope="col">Hành động</th>
                             </tr>
                         </thead>
@@ -115,11 +116,12 @@ function User() {
                                         <tr key={index}>
                                             <th scope="row">{(currentPage - 1) * currentLimit + index + 1}</th>
                                             <td>{user.id}</td>
-                                            <td>{user.email}</td>
-                                            <td>{user.sex === '1' ? 'Nam' : 'Nữ'}</td>
-                                            <td>{user.address}</td>
                                             <td>{user.username}</td>
+                                            <td>{user.email}</td>
+                                            <td>{user.phone}</td>
+                                            <td>{user.sex === '1' ? 'Nam' : 'Nữ'}</td>
                                             <td>{user.Group ? user.Group.name : ''}</td>
+                                            <td>{user.address}</td>
                                             <td>
                                                 <button
                                                     onClick={() => handleEditUser(user)}

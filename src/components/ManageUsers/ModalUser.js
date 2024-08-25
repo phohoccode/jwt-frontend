@@ -139,7 +139,6 @@ function ModalUser(props) {
                         <div className='col-6 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Email</label>
                             <input
-                                disabled={action === 'UPDATE'}
                                 value={userData.email || ''}
                                 onChange={(e) => handleOnchangeInput(e.target.value, 'email')}
                                 className={
@@ -160,7 +159,6 @@ function ModalUser(props) {
                         <div className='col-6 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Số điện thoại</label>
                             <input
-                                disabled={action === 'UPDATE'}
                                 value={userData.phone || ''}
                                 onChange={(e) => handleOnchangeInput(e.target.value, 'phone')}
                                 className={
@@ -171,6 +169,7 @@ function ModalUser(props) {
                         <div className='col-6 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Mật khẩu</label>
                             <input
+                                disabled={action === 'UPDATE'}
                                 value={userData.password || ''}
                                 onChange={(e) => handleOnchangeInput(e.target.value, 'password')}
                                 className={

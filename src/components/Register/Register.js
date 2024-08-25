@@ -82,13 +82,12 @@ function Register() {
 
         if (isValid) {
             const response = await registerNewUser(userData) 
-            const serverData = response?.data
 
-            if (+serverData.EC === 0) {
-                toast.success(serverData.EM)
+            if (+response.EC === 0) {
+                toast.success(response.EM)
                 navigate('/login')
             } else {
-                toast.error(serverData.EM)
+                toast.error(response.EM)
             }
         }
     };

@@ -57,7 +57,7 @@ function Login() {
 
             toast.success('Đăng nhập thành công!')
             navigate('/users')
-            window.location.reload()
+            // window.location.reload()
         } else {
             toast.error('Thông tin tài khoản không đúng!')
         }
