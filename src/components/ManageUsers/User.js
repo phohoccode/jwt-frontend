@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { fetchAllUser, deleteUser } from '../../services/userService';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
 import ModalDelete from './ModalDelete';
 import ModalUser from './ModalUser';
+import { UserContext } from '../../context/UserContext';
 
 function User() {
     const [listUsers, setListUsers] = useState([]);
@@ -15,14 +16,17 @@ function User() {
     // modal delete
     const [isShowModalDelete, setIsShowModalDelete] = useState(false)
     const [dataModal, setDataModal] = useState({})
-    
+
     // modal update
     const [dataModalUser, setDataModalUser] = useState({})
     const [isShowModalUser, setIsShowModalUser] = useState(false)
     const [actionModalUser, setActionModalUser] = useState('')
+    const { user } = useContext(UserContext);
+
 
     useEffect(() => {
         fetchUsers();
+
     }, [currentPage]);
 
     const fetchUsers = async () => {
@@ -79,7 +83,7 @@ function User() {
 
     const handleRefesh = async () => {
         await fetchUsers()
-    } 
+    }
 
     return (
         <>
@@ -100,7 +104,7 @@ function User() {
                                 <th scope="col">STT</th>
                                 <th scope="col">Id</th>
                                 <th scope="col">
-                                Tên người dùng</th>
+                                    Tên người dùng</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Số điện thoại</th>
                                 <th scope="col">Giới tính</th>
@@ -125,7 +129,7 @@ function User() {
                                             <td>
                                                 <button
                                                     onClick={() => handleEditUser(user)}
-                                                className='btn btn-warning me-2'>Chỉnh sửa</button>
+                                                    className='btn btn-warning me-2'>Chỉnh sửa</button>
                                                 <button
                                                     onClick={() => handleDeleteUser(user)}
                                                     className='btn btn-danger'>Xoá</button>
@@ -174,7 +178,7 @@ function User() {
                 confirmDeleteUser={confirmDeleteUser}
             />
 
-            <ModalUser 
+            <ModalUser
                 onHide={onHideModalUser}
                 show={isShowModalUser}
                 action={actionModalUser}

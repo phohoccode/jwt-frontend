@@ -8,15 +8,6 @@ import { useEffect, useState } from 'react'
 import AppRouter from './routes/AppRouter'
 
 const App = () => {
-    const [account, setAccount] = useState({})
-
-    useEffect(() => {
-        const session = JSON.parse(sessionStorage.getItem('account'))
-
-        if (session) {
-            setAccount(session)
-        }
-    }, [])
 
     return (
         <div >

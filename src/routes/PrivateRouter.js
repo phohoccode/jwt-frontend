@@ -1,13 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { UserContext } from "../context/UserContext";
 
 function PrivateRouter({ children }) {
     const navigate = useNavigate()
+    const { user } = useContext(UserContext)
 
     useEffect(() => {
-        const session = JSON.parse(sessionStorage.getItem('account'))
-
-        if (!session) {
+        if (!user && !user.isAuthenticated) {
             navigate('/login')
         }
     }, [])

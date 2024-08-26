@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { UserContext } from '../../context/UserContext';
 import { loginUser } from '../../services/userService';
 import './Login.scss'
 
 function Login() {
+    const { login } = useContext(UserContext)
     const navigate = useNavigate()
     const [valueLogin, setValueLogin] = useState('')
     const [password, setPassword] = useState('')
@@ -14,14 +16,6 @@ function Login() {
         isValidPass: true,
     });
     const [objCheckInput, setObjCheckInput] = useState(defaultValid);
-
-    useEffect(() => {
-        const session = JSON.parse(sessionStorage.getItem('account'))
-
-        if (session) {
-            navigate('/')
-        }
-    }, [])
 
     const handleLogin = async () => {
         setObjCheckInput(defaultValid)
@@ -48,12 +42,18 @@ function Login() {
         const response = await loginUser(userData)
 
         if (response && response.EC === 0) {
+            const groupWithRoles = response.DT.groupWithRoles
+            const email = response.DT.email
+            const username = response.DT.username
+            const token = response.DT.token
+
             const data = {
                 isAuthenticated: true,
-                token: 'fake token'
+                token,
+                account: { groupWithRoles, email, username }
             }
 
-            sessionStorage.setItem('account', JSON.stringify(data))
+            login(data)
 
             toast.success('Đăng nhập thành công!')
             navigate('/users')

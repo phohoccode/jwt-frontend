@@ -1,22 +1,18 @@
-import { NavLink, useLocation} from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import './Nav.scss'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+
+import { UserContext } from '../../context/UserContext';
 
 const Nav = () => {
     const location = useLocation()
-    const [isShow, setIsShow] = useState(true)
-
-    useEffect(() => {
-        if (location.pathname === '/login') {
-            setIsShow(false)
-        }
-    }, [])
+    const { user } = useContext(UserContext)
 
     return (
         <>
-            {isShow &&
-                <ul className='container'>
+            {user && user.isAuthenticated || location.pathname === '/' &&
+                <ul>
                     <li>
                         <NavLink to="/">Home</NavLink>
                     </li>
