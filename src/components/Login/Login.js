@@ -40,12 +40,12 @@ function Login() {
 
         const userData = { valueLogin, password }
         const response = await loginUser(userData)
-
+        console.log('>>> Login-response:\n', response)
         if (response && response.EC === 0) {
             const groupWithRoles = response.DT.groupWithRoles
             const email = response.DT.email
             const username = response.DT.username
-            const token = response.DT.token
+            const token = response.DT.access_token
 
             const data = {
                 isAuthenticated: true,
@@ -55,9 +55,8 @@ function Login() {
 
             login(data)
 
-            toast.success('Đăng nhập thành công!')
+            toast.success(`Xin chào ${response.DT.username}`)
             navigate('/users')
-            // window.location.reload()
         } else {
             toast.error('Thông tin tài khoản không đúng!')
         }

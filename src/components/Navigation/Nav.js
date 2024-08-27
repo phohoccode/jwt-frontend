@@ -8,10 +8,14 @@ import { UserContext } from '../../context/UserContext';
 const Nav = () => {
     const location = useLocation()
     const { user } = useContext(UserContext)
+    
+    useEffect(() => {
+        console.log(user);
+    }, [user])
 
     return (
         <>
-            {user && user.isAuthenticated || location.pathname === '/' &&
+            {(user && user.isAuthenticated || location.pathname === '/login') &&
                 <ul>
                     <li>
                         <NavLink to="/">Home</NavLink>

@@ -108,7 +108,7 @@ function ModalUser(props) {
             const response = action === 'CREATE' ?
                 await createNewUser({ ...userData, groupId: userData['group'] }) :
                 await updateCurrentUser({ ...userData, groupId: userData['group'] })
-
+            console.log('>>> ModalUser-handleConfirmUser-response:\n', response)
             if (response && response.EC === 0) {
                 toast.success(response.EM)
                 props.onHide()

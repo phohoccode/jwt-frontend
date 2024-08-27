@@ -26,7 +26,6 @@ function User() {
 
     useEffect(() => {
         fetchUsers();
-
     }, [currentPage]);
 
     const fetchUsers = async () => {

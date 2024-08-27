@@ -13,6 +13,7 @@ function Register() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [defaultValid, setDefaultValid] = useState({
+        isValidUsername: true,
         isValidEmail: true,
         isValidPhone: true,
         isValidPass: true,
@@ -20,14 +21,19 @@ function Register() {
     });
     const [objCheckInput, setObjCheckInput] = useState(defaultValid);
 
-    useEffect(() => {
-
-    }, []);
-
     const isValidInputs = () => {
         const regex = /^\S+@\S+\.\S+$/;
 
         setObjCheckInput(defaultValid);
+
+        if (!username) {
+            toast.error('Tên người dùng không được trống!');
+            setObjCheckInput((prevState) => ({
+                ...prevState,
+                isValidUsername: false,
+            }));
+            return false;
+        }
 
         if (!email) {
             toast.error('Email không được trống!');
@@ -56,8 +62,26 @@ function Register() {
             return false;
         }
 
+        if (phone.length < 11) {
+            toast.error('Độ dài số điện thoại phải đủ 10 kí tự!');
+            setObjCheckInput((prevState) => ({
+                ...prevState,
+                isValidPhone: false,
+            }));
+            return false;
+        }
+
         if (!password) {
-            toast.error('Password không được trống!');
+            toast.error('Mật khẩu không được trống!');
+            setObjCheckInput((prevState) => ({
+                ...prevState,
+                isValidPass: false,
+            }));
+            return false;
+        }
+
+        if (password.length < 9) {
+            toast.error('Độ dài mật khẩu phải nhiều hơn 8 kí tự!');
             setObjCheckInput((prevState) => ({
                 ...prevState,
                 isValidPass: false,
@@ -108,14 +132,16 @@ function Register() {
                         id='username'
                         placeholder='Tên người dùng'
                         type='text'
-                        className='form-control'
+                        className={
+                            objCheckInput.isValidUsername ? 'form-control' : 'form-control is-invalid'
+                        }
                     />
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         name='email'
                         id='email'
-                        placeholder='Email address'
+                        placeholder='Địa chỉ email'
                         type='email'
                         className={
                             objCheckInput.isValidEmail ? 'form-control' : 'form-control is-invalid'
@@ -127,7 +153,7 @@ function Register() {
                         name='phone'
                         id='phone'
                         placeholder='Số điện thoại'
-                        type='text'
+                        type='number'
                         className={
                             objCheckInput.isValidPhone ? 'form-control' : 'form-control is-invalid'
                         }
