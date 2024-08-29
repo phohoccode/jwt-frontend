@@ -5,3 +5,19 @@ a {
         text-decoration: underline;
     }
 }
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    flex-direction: column;
+    gap: 24px;
+
+    span {
+        color: #0d6efd;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+}

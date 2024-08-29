@@ -6,8 +6,10 @@ import { toast } from 'react-toastify';
 import ModalDelete from './ModalDelete';
 import ModalUser from './ModalUser';
 import { UserContext } from '../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 function User() {
+    const navigate = useNavigate()
     const [listUsers, setListUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1)
     const [currentLimit, setCurrentLimit] = useState(2)
@@ -30,10 +32,12 @@ function User() {
 
     const fetchUsers = async () => {
         const response = await fetchAllUser(currentPage, currentLimit);
-
+        console.log(response)
         if (response && response.EC === 0) {
             setTotalPages(response.DT.totalPages)
             setListUsers(response.DT.users);
+        } else {
+            navigate('/login')
         }
     };
 

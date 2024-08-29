@@ -53,8 +53,8 @@ function Login() {
                 account: { groupWithRoles, email, username }
             }
 
+            localStorage.setItem('jwt', token)
             login(data)
-
             toast.success(`Xin chào ${response.DT.username}`)
             navigate('/users')
         } else {

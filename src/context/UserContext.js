@@ -5,22 +5,26 @@ import { getUserAccount } from "../services/userService";
 const UserContext = React.createContext(null)
 
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({
-        isAuthenticated: '',
+    const userDefault = {
+        isLoading: true,
+        isAuthenticated: false,
         token: '',
         account: {}
-    });
+    }
+    const [user, setUser] = useState(userDefault);
 
     useEffect(() => {
-        fetchUser()
+        if (window.location.pathname !== '/' && window.location.pathname !== '/login') {
+            fetchUser()
+        } else {
+            setUser({ ...userDefault, isLoading: false })
+        }
     }, [])
 
-    // Login updates the user data with a name parameter
     const login = (userData) => {
-        setUser(userData)
+        setUser({ ...userData, isLoading: false })
     };
 
-    // Logout updates the user data to default
     const logout = () => {
         setUser((user) => ({
             name: '',
@@ -40,11 +44,15 @@ const UserProvider = ({ children }) => {
             const data = {
                 isAuthenticated: true,
                 token,
-                account: { groupWithRoles, email, username }
+                account: { groupWithRoles, email, username },
+                isLoading: false
             }
-            setUser(data)
+            setTimeout(() => {
+                setUser(data)
+            }, 3000)
+        } else {
+            setUser({ ...userDefault, isLoading: false })
         }
-        console.log(response)
     }
 
     return (
