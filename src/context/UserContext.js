@@ -17,7 +17,7 @@ const UserProvider = ({ children }) => {
         if (window.location.pathname !== '/' && window.location.pathname !== '/login') {
             fetchUser()
         } else {
-            setUser({ ...userDefault, isLoading: false })
+            setUser({ ...user, isLoading: false })
         }
     }, [])
 
@@ -26,10 +26,8 @@ const UserProvider = ({ children }) => {
     };
 
     const logout = () => {
-        setUser((user) => ({
-            name: '',
-            auth: false,
-        }));
+        console.log(">>>UserContext-logout: check")
+        setUser({ ...userDefault, isLoading: false })
     };
 
     const fetchUser = async () => {

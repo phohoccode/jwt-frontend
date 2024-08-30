@@ -117,13 +117,13 @@ function Register() {
     };
 
     return (
-        <div className='container'>
+        <div className='container mt-5'>
             <div className='row px-3 px-sm-0 '>
-                <div className='content-left col-sm-8 d-sm-block d-none'>
+                <div className='content-left col-sm-7 d-sm-block d-none'>
                     <h2 className='brand'>PHOHOCCODE</h2>
                     <p className='description'>Khoá học fullstack jwt trên youtube hoidanit</p>
                 </div>
-                <div className='content-right col-sm-4 d-flex flex-column gap-3'>
+                <div className='content-right col-sm-5 d-flex flex-column gap-3'>
                     <h3 className='text-center'>Đăng ký tài khoản</h3>
                     <input
                         value={username}

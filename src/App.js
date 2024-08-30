@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import _ from 'lodash'
 import { ThreeDots } from 'react-loader-spinner'
 
 import './App.scss'
-import Nav from "./components/Navigation/Nav"
+import NavHeader from "./components/Navigation/NavHeader"
 import { useContext } from 'react'
 import AppRouter from './routes/AppRouter'
 import { UserContext } from './context/UserContext'
@@ -28,10 +28,10 @@ const App = () => {
                             visible={true}
                         />
                     </div>) :
-                    (<>
-                        <Nav />
+                    (<div className='app'>
+                        {window.location.pathname !== '/login' && <NavHeader />}
                         <AppRouter />
-                    </>)}
+                    </div>)}
             </Router>
 
             <ToastContainer

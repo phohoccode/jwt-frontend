@@ -6,6 +6,7 @@ const registerNewUser = (userData) => {
 }
 
 const loginUser = (userData) => {
+    console.log('>>> userService-loginUser: post api->server')
     return axios.post('/api/v1/login', userData);
 }
 
@@ -33,7 +34,11 @@ const getUserAccount = () => {
     return axios.get('/api/v1/account')
 }
 
+const logoutUser = () => {
+    return axios.post('/api/v1/logout')
+}
+
 export {
-    registerNewUser, createNewUser, updateCurrentUser,
+    registerNewUser, createNewUser, updateCurrentUser,logoutUser,
     loginUser, fetchAllUser, deleteUser, fetchGroup, getUserAccount
 }

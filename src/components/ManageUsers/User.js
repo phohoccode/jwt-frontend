@@ -92,12 +92,15 @@ function User() {
         <>
             <div className='manage-users-container container'>
                 <div className='user-header'>
-                    <div className='title'>
-                        <h3>Quản lý người dùng</h3>
-                    </div>
                     <div className='actions mt-4 mb-4'>
-                        <button onClick={() => handleRefesh()} className='btn btn-success me-2'>Làm mới</button>
-                        <button onClick={() => handleCreateUser()} className='btn btn-primary'>Thêm người dùng</button>
+                        <button onClick={() => handleRefesh()} className='btn btn-success me-2'>
+                            <i className="fa-solid fa-arrows-rotate me-1"></i>
+                            Làm mới
+                        </button>
+                        <button onClick={() => handleCreateUser()} className='btn btn-primary'>
+                            <i className="fa-solid fa-plus me-1"></i>
+                            Thêm người dùng
+                        </button>
                     </div>
                 </div>
                 <div className='user-body'>
@@ -132,10 +135,16 @@ function User() {
                                             <td>
                                                 <button
                                                     onClick={() => handleEditUser(user)}
-                                                    className='btn btn-warning me-2'>Chỉnh sửa</button>
+                                                    className='btn btn-warning me-2'>
+                                                        <i className="fa-regular fa-pen-to-square me-2"></i>
+                                                        Chỉnh sửa
+                                                    </button>
                                                 <button
                                                     onClick={() => handleDeleteUser(user)}
-                                                    className='btn btn-danger'>Xoá</button>
+                                                    className='btn btn-danger'>
+                                                        <i className="fa-solid fa-trash me-2"></i>
+                                                        Xoá
+                                                    </button>
                                             </td>
                                         </tr>
                                     ))}

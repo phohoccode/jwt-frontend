@@ -41,6 +41,7 @@ function Login() {
         const userData = { valueLogin, password }
         const response = await loginUser(userData)
         console.log('>>> Login-response:\n', response)
+        
         if (response && response.EC === 0) {
             const groupWithRoles = response.DT.groupWithRoles
             const email = response.DT.email
@@ -55,10 +56,10 @@ function Login() {
 
             localStorage.setItem('jwt', token)
             login(data)
-            toast.success(`Xin chào ${response.DT.username}`)
+            toast.success(response.EM)
             navigate('/users')
         } else {
-            toast.error('Thông tin tài khoản không đúng!')
+            toast.error(response.EM)
         }
     }
 
@@ -69,9 +70,9 @@ function Login() {
     }
 
     return (
-        <div className='container'>
+        <div className='container mt-5'>
             <div className='row px-3 px-sm-0'>
-                <div className='content-left col-sm-8 d-sm-block d-none'>
+                <div className='content-left col-sm-7 d-sm-block d-none'>
                     <h2 className='brand'>
                         PHOHOCCODE
                     </h2>
@@ -79,7 +80,7 @@ function Login() {
                         Phở học fullstack hoidanit
                     </p>
                 </div>
-                <div className='content-right col-sm-4 d-flex flex-column gap-3'>
+                <div className='content-right col-sm-5 d-flex flex-column gap-3'>
                     <h3 className='text-center'>Đăng nhập</h3>
                     <input
                         value={valueLogin}
