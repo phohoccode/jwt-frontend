@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify'
 
 import { createRoles } from '../../services/roleService';
+import TableRoles from './TableRoles';
 
 function Roles() {
     const dataChildDefault = { url: '', description: '', isValidUrl: true }
     const [listChilds, setListChilds] = useState({
         child1: dataChildDefault
     })
+    const childRef = useRef()
 
     const handleOnchangeInput = (name, value, key) => {
         const _listChilds = _.cloneDeep(listChilds)
@@ -57,6 +59,7 @@ function Roles() {
             if (response && response.EC === 0) {
                 toast.success(response.EM)
                 setListChilds({ child1: dataChildDefault })
+                childRef.current.fetchListRolesAgian()
             } else {
                 toast.error(response.EM)
             }
@@ -69,48 +72,55 @@ function Roles() {
         }
     }
 
-    return (
-        <div className='container'>
-            <div className='mt-3'>
-                <div>
-                    <h4 className='mb-3'>Thêm quyền hạn</h4>
-                </div>
-                <div>
-                    {Object.entries(listChilds).map(([key, child], index) => (
-                        <div className='row' key={key}>
-                            <div className={`col-5 form-group ${key}`}>
-                                <label className='form-label'>URL:</label>
-                                <input
-                                    value={child.url}
-                                    onChange={(e) => handleOnchangeInput('url', e.target.value, key)}
-                                    type='text'
-                                    className={child.isValidUrl ? 'form-control' : 'form-control is-invalid'} />
+return (
+        <>
+            <div className='container'>
+                <div className='mt-3'>
+                    <div>
+                        <h4 className='mb-3'>Thêm quyền hạn</h4>
+                    </div>
+                    <div>
+                        {Object.entries(listChilds).map(([key, child], index) => (
+                            <div className='row' key={key}>
+                                <div className={`col-5 form-group ${key}`}>
+                                    <label className='form-label'>URL:</label>
+                                    <input
+                                        value={child.url}
+                                        onChange={(e) => handleOnchangeInput('url', e.target.value, key)}
+                                        type='text'
+                                        className={child.isValidUrl ? 'form-control' : 'form-control is-invalid'} />
+                                </div>
+                                <div className='col-5 form-group'>
+                                    <label className='form-label'>Mô tả quyền hạn:</label>
+                                    <input
+                                        value={child.description}
+                                        onChange={(e) => handleOnchangeInput('description', e.target.value, key)}
+                                        type='text'
+                                        className='form-control' />
+                                </div>
+                                <div className='col-2 mt-4'>
+                                    <div className='form-label'></div>
+                                    <button onClick={() => handleAddNewRoles()} className='btn btn-primary mx-2'>
+                                        <i className="fa-solid fa-plus"></i>
+                                    </button>
+                                    {index >= 1 && <button onClick={() => handleRemoveRoles(key)} className='btn btn-danger'>
+                                        <i className="fa-solid fa-trash"></i>
+                                    </button>}
+                                </div>
                             </div>
-                            <div className='col-5 form-group'>
-                                <label className='form-label'>Mô tả quyền hạn:</label>
-                                <input
-                                    value={child.description}
-                                    onChange={(e) => handleOnchangeInput('description', e.target.value, key)}
-                                    type='text'
-                                    className='form-control' />
-                            </div>
-                            <div className='col-2 mt-4'>
-                                <div className='form-label'></div>
-                                <button onClick={() => handleAddNewRoles()} className='btn btn-primary mx-2'>
-                                    <i className="fa-solid fa-plus"></i>
-                                </button>
-                                {index >= 1 && <button onClick={() => handleRemoveRoles(key)} className='btn btn-danger'>
-                                    <i className="fa-solid fa-trash"></i>
-                                </button>}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div>
-                    <button onClick={() => handleSave()} className='btn btn-warning mt-4'>Lưu</button>
+                        ))}
+                    </div>
+                    <div>
+                        <button onClick={() => handleSave()} className='btn btn-warning mt-4'>Lưu</button>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div className='container'>
+                <hr />
+                <h4 className='mb-3'>Danh sách quyền hạn</h4>
+                <TableRoles ref={childRef}/>
+            </div>
+        </>
     );
 }
 
