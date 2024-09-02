@@ -6,6 +6,7 @@ import Register from "../components/Register/Register";
 import User from "../components/ManageUsers/User";
 import PrivateRouter from "./PrivateRouter";
 import Roles from "../components/Roles/Roles";
+import GroupRole from "../components/GroupRole/GroupRole";
 
 function AppRouter() {
     return (
@@ -25,6 +26,15 @@ function AppRouter() {
                     element={
                         <PrivateRouter>
                             <Roles />
+                        </PrivateRouter>
+                    }
+                />
+
+                <Route
+                    path="/group-role"
+                    element={
+                        <PrivateRouter>
+                            <GroupRole />
                         </PrivateRouter>
                     }
                 />

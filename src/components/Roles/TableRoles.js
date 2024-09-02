@@ -1,10 +1,16 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from 'react'
 import { toast } from 'react-toastify'
 
-import { fetchAllRole, deleteRole } from '../../services/roleService';
+import { fetchAllRole, deleteRole, updateRole } from '../../services/roleService';
+import ModalDeleteRole from './ModalDeleteRole';
+import ModalUpdateRole from './ModalUpdateRole';
 
 function TableRoles(props, ref) {
     const [listRoles, setListRoles] = useState([])
+    const [isShowModalDelete, setIsShowModalDelete] = useState(false)
+    const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
+    const [dataModalDelete, setDataModalDelete] = useState({})
+    const [dataModalUpdate, setDataModalUpdate] = useState({})
 
     useEffect(() => {
         getAllRoles()
@@ -18,6 +24,8 @@ function TableRoles(props, ref) {
 
     const getAllRoles = async () => {
         const response = await fetchAllRole();
+        console.log(response);
+        
         if (response && +response.EC === 0) {
             setListRoles(response.DT)
         } else {
@@ -26,14 +34,35 @@ function TableRoles(props, ref) {
     }
 
     const handleDeleteRole = async (role) => {
-        const response = await deleteRole(role)
+        console.log('>>> role', role)
+        setDataModalDelete(role)
+        setIsShowModalDelete(true)
+    }
+
+    const handleCloseModaDelete = () => {
+        setIsShowModalDelete(false)
+    }
+
+    const confirmDeleteRole = async () => {
+        const response = await deleteRole(dataModalDelete)
 
         if (response && +response.EC === 0) {
             toast.success(response.EM)
             await getAllRoles()
+            setIsShowModalDelete(false)
         } else {
             toast.error(response.EM)
         }
+    }
+
+    const handleUpdateRole = (role) => {
+        console.log('>>> role', role)
+        setDataModalUpdate(role)
+        setIsShowModalUpdate(true)
+    }
+
+    const handleCloseModaUpdate = () => {
+        setIsShowModalUpdate(false)
     }
 
     return (
@@ -61,9 +90,15 @@ function TableRoles(props, ref) {
                                     <td>
                                         <button
                                             onClick={() => handleDeleteRole(role)}
-                                            className='btn btn-danger'>
+                                            className='btn btn-danger me-2'>
                                             <i className="fa-solid fa-trash me-2"></i>
                                             Xoá
+                                        </button>
+                                        <button
+                                            onClick={() => handleUpdateRole(role)}
+                                            className='btn btn-warning'>
+                                            <i className="fa-solid fa-trash me-2"></i>
+                                            Chỉnh sửa
                                         </button>
                                     </td>
                                 </tr>
@@ -76,6 +111,21 @@ function TableRoles(props, ref) {
                     )}
                 </tbody>
             </table>
+
+            <>
+                <ModalDeleteRole 
+                    handleClose={handleCloseModaDelete}
+                    show={isShowModalDelete}
+                    dataModal={dataModalDelete}
+                    confirmDeleteRole={confirmDeleteRole}
+                />
+                <ModalUpdateRole
+                    onHide={handleCloseModaUpdate}
+                    show={isShowModalUpdate}
+                    dataModal={dataModalUpdate}
+                    getAllRoles={getAllRoles}
+                />
+            </>
         </>
     );
 }

@@ -40,6 +40,8 @@ function ModalUser(props) {
                 ...dataModalUser,
                 group: dataModalUser.Group ? dataModalUser.Group.id : ''
             })
+            console.log(dataModalUser);
+            
         }
     }, [dataModalUser])
 
@@ -54,15 +56,16 @@ function ModalUser(props) {
     const getGroup = async () => {
         const response = await fetchGroup()
 
-        if (response && response.EC === 0) {
-            setUserGroup(response.DT)
-
-            if (response.DT && response.DT.length > 0) {
-                const groups = response.DT
-                setUserData({ ...userData, group: groups[0].id })
-            }
-        } else {
+        if (response && response.EC !== 0) {
             toast.error(response.EM)
+            return
+        }
+         
+        setUserGroup(response.DT)
+
+        if (response.DT && response.DT.length > 0) {
+            const groups = response.DT
+            setUserData({ ...userData, group: groups[0].id })
         }
     }
 
@@ -108,7 +111,7 @@ function ModalUser(props) {
             const response = action === 'CREATE' ?
                 await createNewUser({ ...userData, groupId: userData['group'] }) :
                 await updateCurrentUser({ ...userData, groupId: userData['group'] })
-            console.log('>>> ModalUser-handleConfirmUser-response:\n', response)
+
             if (response && response.EC === 0) {
                 toast.success(response.EM)
                 props.onHide()
@@ -193,7 +196,7 @@ function ModalUser(props) {
                                 className="form-select form-select-sm" aria-label=".form-select-sm example"
                                 onChange={(e) => handleOnchangeInput(e.target.value, 'sex')}
                             >
-                                <option defaultValue value="1">Nam</option>
+                                <option  value="1">Nam</option>
                                 <option value="2">Nữ</option>
                             </select>
                         </div>

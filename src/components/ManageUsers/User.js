@@ -25,7 +25,6 @@ function User() {
     const [actionModalUser, setActionModalUser] = useState('')
     const { user } = useContext(UserContext);
 
-
     useEffect(() => {
         fetchUsers();
     }, [currentPage]);
@@ -80,6 +79,7 @@ function User() {
 
     const handleEditUser = (user) => {
         setActionModalUser('UPDATE')
+        console.log('user', user)
         setDataModalUser(user)
         setIsShowModalUser(true)
     }
