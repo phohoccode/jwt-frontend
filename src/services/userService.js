@@ -6,7 +6,6 @@ const registerNewUser = (userData) => {
 }
 
 const loginUser = (userData) => {
-    console.log('>>> userService-loginUser: post api->server')
     return axios.post('/api/v1/login', userData);
 }
 

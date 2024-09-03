@@ -17,7 +17,12 @@ const UserProvider = ({ children }) => {
         if (window.location.pathname !== '/' && window.location.pathname !== '/login') {
             fetchUser()
         } else {
-            setUser({ ...user, isLoading: false })
+            const isLogin = JSON.parse(localStorage.getItem('isLogin'))
+            setUser({
+                ...user,
+                isAuthenticated: isLogin,
+                isLoading: false
+            })
         }
     }, [])
 
@@ -26,7 +31,6 @@ const UserProvider = ({ children }) => {
     };
 
     const logout = () => {
-        console.log(">>>UserContext-logout: check")
         setUser({ ...userDefault, isLoading: false })
     };
 
@@ -37,7 +41,7 @@ const UserProvider = ({ children }) => {
             const groupWithRoles = response.DT.groupWithRoles
             const email = response.DT.email
             const username = response.DT.username
-            const token = response.DT.token
+            const token = response.DT.access_token
 
             const data = {
                 isAuthenticated: true,
@@ -45,9 +49,10 @@ const UserProvider = ({ children }) => {
                 account: { groupWithRoles, email, username },
                 isLoading: false
             }
+            console.log('data', data)
             setTimeout(() => {
                 setUser(data)
-            }, 3000)
+            }, 1000)
         } else {
             setUser({ ...userDefault, isLoading: false })
         }

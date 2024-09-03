@@ -41,14 +41,19 @@ function ModalUser(props) {
                 group: dataModalUser.Group ? dataModalUser.Group.id : ''
             })
             console.log(dataModalUser);
-            
+
         }
     }, [dataModalUser])
 
     useEffect(() => {
         if (action === 'CREATE') {
+            console.log('>>> userGroup: ', userGroup)
             if (userGroup && userGroup.length > 0) {
-                setUserData({ ...userData, group: userGroup[0].id })
+                setUserData({
+                    ...userData,
+                    sex: '1',
+                    group: userGroup[0].id
+                })
             }
         }
     }, [action])
@@ -60,7 +65,7 @@ function ModalUser(props) {
             toast.error(response.EM)
             return
         }
-         
+
         setUserGroup(response.DT)
 
         if (response.DT && response.DT.length > 0) {
@@ -108,9 +113,18 @@ function ModalUser(props) {
         const check = checkValidInputs()
 
         if (check) {
+            console.log('>>> userData: ', userData)
             const response = action === 'CREATE' ?
-                await createNewUser({ ...userData, groupId: userData['group'] }) :
-                await updateCurrentUser({ ...userData, groupId: userData['group'] })
+                await createNewUser({
+                    ...userData,
+                    sex: userData['sex'],
+                    groupId: userData['group']
+                }) :
+                await updateCurrentUser({
+                    ...userData,
+                    sex: userData['sex'],
+                    groupId: userData['group']
+                })
 
             if (response && response.EC === 0) {
                 toast.success(response.EM)
@@ -139,7 +153,7 @@ function ModalUser(props) {
                 </Modal.Header>
                 <Modal.Body>
                     <div className='content-body row'>
-                        <div className='col-6 mt-3 col-sm-6 form-group'>
+                        <div className='col-12 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Email</label>
                             <input
                                 value={userData.email || ''}
@@ -149,7 +163,7 @@ function ModalUser(props) {
                                 }
                                 type='email' />
                         </div>
-                        <div className='col-6 mt-3 col-sm-6 form-group'>
+                        <div className='col-12 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Tên người dùng</label>
                             <input
                                 value={userData.username || ''}
@@ -159,7 +173,7 @@ function ModalUser(props) {
                                 }
                                 type='text' />
                         </div>
-                        <div className='col-6 mt-3 col-sm-6 form-group'>
+                        <div className='col-12 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Số điện thoại</label>
                             <input
                                 value={userData.phone || ''}
@@ -169,7 +183,7 @@ function ModalUser(props) {
                                 }
                                 type='number' />
                         </div>
-                        <div className='col-6 mt-3 col-sm-6 form-group'>
+                        <div className='col-12 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Mật khẩu</label>
                             <input
                                 disabled={action === 'UPDATE'}
@@ -189,18 +203,18 @@ function ModalUser(props) {
                                 }
                                 type='text' />
                         </div>
-                        <div className='col-6 mt-3 col-sm-6 form-group'>
+                        <div className='col-12 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Giới tính</label>
                             <select
                                 value={userData.sex}
                                 className="form-select form-select-sm" aria-label=".form-select-sm example"
                                 onChange={(e) => handleOnchangeInput(e.target.value, 'sex')}
                             >
-                                <option  value="1">Nam</option>
+                                <option value="1">Nam</option>
                                 <option value="2">Nữ</option>
                             </select>
                         </div>
-                        <div className='col-6 mt-3 col-sm-6 form-group'>
+                        <div className='col-12 mt-3 col-sm-6 form-group'>
                             <label className='form-label'>Nhóm</label>
                             <select
                                 value={userData.group}

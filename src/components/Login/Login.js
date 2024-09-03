@@ -7,7 +7,7 @@ import { loginUser } from '../../services/userService';
 import './Login.scss'
 
 function Login() {
-    const { login } = useContext(UserContext)
+    const { login, user } = useContext(UserContext)
     const navigate = useNavigate()
     const [valueLogin, setValueLogin] = useState('')
     const [password, setPassword] = useState('')
@@ -16,6 +16,13 @@ function Login() {
         isValidPass: true,
     });
     const [objCheckInput, setObjCheckInput] = useState(defaultValid);
+
+    useEffect(() => {
+        console.log(user)
+        if (user && user.isAuthenticated) {
+            navigate('/')
+        }
+    }, [user])
 
     const handleLogin = async () => {
         setObjCheckInput(defaultValid)
@@ -40,9 +47,9 @@ function Login() {
 
         const userData = { valueLogin, password }
         const response = await loginUser(userData)
-        console.log('>>> Login-response:\n', response)
-        
+
         if (response && response.EC === 0) {
+            console.log(response)
             const groupWithRoles = response.DT.groupWithRoles
             const email = response.DT.email
             const username = response.DT.username
@@ -50,11 +57,12 @@ function Login() {
 
             const data = {
                 isAuthenticated: true,
-                token,
+                token: token,
                 account: { groupWithRoles, email, username }
             }
 
             localStorage.setItem('jwt', token)
+            localStorage.setItem('isLogin', true)
             login(data)
             toast.success(response.EM)
             navigate('/users')

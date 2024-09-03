@@ -3,6 +3,7 @@ import { fetchAllUser, deleteUser } from '../../services/userService';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
+import './User.scss'
 import ModalDelete from './ModalDelete';
 import ModalUser from './ModalUser';
 import { UserContext } from '../../context/UserContext';
@@ -86,6 +87,7 @@ function User() {
 
     const handleRefesh = async () => {
         await fetchUsers()
+        toast.success('Làm mới thành công!')
     }
 
     return (

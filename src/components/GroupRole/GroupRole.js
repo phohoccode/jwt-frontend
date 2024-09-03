@@ -11,11 +11,17 @@ function GroupRole() {
     const [selectGroup, setSelectGroup] = useState('')
     const [listRoles, setListRoles] = useState([])
     const [assignRolesByGroup, setAssignRolesByGroup] = useState([])
+    const [isCheckedAllRoles, setIsCheckedAllRoles] = useState(false)
 
     useEffect(() => {
         getGroup()
         getAllRoles()
     }, [])
+
+    useEffect(() => {
+        const isCheckedAllRoles = assignRolesByGroup.some(role => !role.isAssigned)
+        setIsCheckedAllRoles(isCheckedAllRoles ? false : true)
+    }, [assignRolesByGroup])
 
     const getGroup = async () => {
         const response = await fetchGroup()
@@ -30,7 +36,6 @@ function GroupRole() {
 
     const getAllRoles = async () => {
         const response = await fetchAllRole();
-        console.log(response);
 
         if (response && +response.EC === 0) {
             setListRoles(response.DT)
@@ -43,11 +48,10 @@ function GroupRole() {
         setSelectGroup(value)
         if (value) {
             const response = await fetchRolesByGroup(value);
-            console.log(response);
 
             if (response && +response.EC === 0) {
                 const result = buildDataRolesByGroup(response.DT.Roles, listRoles)
-                console.log(result)
+
                 setAssignRolesByGroup(result)
             } else {
                 toast.error(response.EM)
@@ -76,6 +80,14 @@ function GroupRole() {
         return result
     }
 
+    const handleSelectAllRole = (event) => {
+        const isChecked = event.target.checked
+        const _assignRolesByGroup = _.cloneDeep(assignRolesByGroup)
+
+        _assignRolesByGroup.map(role => role.isAssigned = isChecked)
+        setAssignRolesByGroup(_assignRolesByGroup)
+    }
+
     const handleSelectRole = (value) => {
         const _assignRolesByGroup = _.cloneDeep(assignRolesByGroup)
         const foundIndex = _assignRolesByGroup.findIndex(role => +role.id === +value)
@@ -102,7 +114,7 @@ function GroupRole() {
 
     const handleSave = async () => {
         const data = buildDataToSave()
-        console.log(data.groupId)
+
         const response = await assignRoleToGroup(data)
 
         if (response && +response.EC === 0) {
@@ -127,27 +139,42 @@ function GroupRole() {
                 </select>
                 <hr />
                 {selectGroup &&
-                    <div>
-                        <h2>Quyền của nhóm</h2>
-                        {assignRolesByGroup.map((role, index) => (
-                            <div className="form-check" key={index}>
+                    <>
+                        <div>
+                            <h4 className="my-3">Chỉnh sửa quyền hạn nhóm</h4>
+                            <div className="form-check">
                                 <input
-                                    value={role.id}
-                                    checked={role.isAssigned}
+                                    checked={isCheckedAllRoles}
                                     className="form-check-input"
                                     type="checkbox"
-                                    id={index}
-                                    onChange={(e) => handleSelectRole(e.target.value)}
+                                    id='checkall'
+                                    onChange={(e) => handleSelectAllRole(e)}
                                 />
-                                <label className="form-check-label" htmlFor={index}>
-                                    {role.url}
+                                <label className="form-check-label" htmlFor='checkall'>
+                                    Chọn tất cả
                                 </label>
                             </div>
-                        ))}
-                    </div>}
-                <div>
-                    <button onClick={() => handleSave()} className="btn btn-primary mt-3">Lưu</button>
-                </div>
+                            <hr />
+                            {assignRolesByGroup.map((role, index) => (
+                                <div className="form-check" key={index}>
+                                    <input
+                                        value={role.id}
+                                        checked={role.isAssigned}
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id={index}
+                                        onChange={(e) => handleSelectRole(e.target.value)}
+                                    />
+                                    <label className="form-check-label" htmlFor={index}>
+                                        {role.url}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
+                        <button onClick={() => handleSave()} className="btn btn-primary mt-3">Lưu</button>
+                    </>
+
+                }
             </div>
         </div>
     );

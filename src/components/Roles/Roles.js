@@ -79,12 +79,9 @@ function Roles() {
             <div className='container'>
                 <div className='mt-3'>
                     <div>
-                        <h4 className='mb-3'>Thêm quyền hạn</h4>
-                    </div>
-                    <div>
                         {Object.entries(listChilds).map(([key, child], index) => (
                             <div className='row' key={key}>
-                                <div className={`col-5 form-group ${key}`}>
+                                <div className={`col-12 col-sm-5 form-group ${key}`}>
                                     <label className='form-label'>URL:</label>
                                     <input
                                         value={child.url}
@@ -92,7 +89,7 @@ function Roles() {
                                         type='text'
                                         className={child.isValidUrl ? 'form-control' : 'form-control is-invalid'} />
                                 </div>
-                                <div className='col-5 form-group'>
+                                <div className='col-12 col-sm-5 form-group'>
                                     <label className='form-label'>Mô tả quyền hạn:</label>
                                     <input
                                         value={child.description}
@@ -100,14 +97,15 @@ function Roles() {
                                         type='text'
                                         className='form-control' />
                                 </div>
-                                <div className='col-2 mt-4'>
+                                <div className='col-12 col-sm-2 my-3 my-sm-3'>
                                     <div className='form-label'></div>
-                                    <button onClick={() => handleAddNewRoles()} className='btn btn-primary mx-2'>
+                                    <button onClick={() => handleAddNewRoles()} className='btn btn-primary me-2 mx-sm-2'>
                                         <i className="fa-solid fa-plus"></i>
                                     </button>
-                                    {index >= 1 && <button onClick={() => handleRemoveRoles(key)} className='btn btn-danger'>
-                                        <i className="fa-solid fa-trash"></i>
-                                    </button>}
+                                    {index >= 1 &&
+                                        <button onClick={() => handleRemoveRoles(key)} className='btn btn-danger'>
+                                            <i className="fa-solid fa-trash"></i>
+                                        </button>}
                                 </div>
                             </div>
                         ))}
@@ -122,7 +120,7 @@ function Roles() {
                 <h4 className='mb-3'>Danh sách quyền hạn</h4>
                 <TableRoles ref={childRef} />
             </div>
-          
+
         </>
     );
 }

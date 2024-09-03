@@ -25,7 +25,7 @@ function TableRoles(props, ref) {
     const getAllRoles = async () => {
         const response = await fetchAllRole();
         console.log(response);
-        
+
         if (response && +response.EC === 0) {
             setListRoles(response.DT)
         } else {
@@ -34,7 +34,6 @@ function TableRoles(props, ref) {
     }
 
     const handleDeleteRole = async (role) => {
-        console.log('>>> role', role)
         setDataModalDelete(role)
         setIsShowModalDelete(true)
     }
@@ -56,7 +55,6 @@ function TableRoles(props, ref) {
     }
 
     const handleUpdateRole = (role) => {
-        console.log('>>> role', role)
         setDataModalUpdate(role)
         setIsShowModalUpdate(true)
     }
@@ -67,13 +65,12 @@ function TableRoles(props, ref) {
 
     return (
         <>
-            <table className="table table-bordered table-hover">
+            <table style={{overflowX: 'auto'}} className="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th scope="col">STT</th>
                         <th scope="col">Id</th>
-                        <th scope="col">
-                            Url</th>
+                        <th scope="col">Url</th>
                         <th scope="col">Mô tả</th>
                         <th scope="col">Hành động</th>
                     </tr>
@@ -85,8 +82,8 @@ function TableRoles(props, ref) {
                                 <tr key={index}>
                                     <th scope="row">{++index}</th>
                                     <td>{role.id}</td>
-                                    <td>{role.url}</td>
-                                    <td>{role.description}</td>
+                                    <td >{role.url}</td>
+                                    <td >{role.description}</td>
                                     <td>
                                         <button
                                             onClick={() => handleDeleteRole(role)}
@@ -113,7 +110,7 @@ function TableRoles(props, ref) {
             </table>
 
             <>
-                <ModalDeleteRole 
+                <ModalDeleteRole
                     handleClose={handleCloseModaDelete}
                     show={isShowModalDelete}
                     dataModal={dataModalDelete}

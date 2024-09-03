@@ -1,5 +1,5 @@
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -12,18 +12,15 @@ import { UserContext } from '../../context/UserContext';
 
 const NavHeader = () => {
     const navigate = useNavigate()
-    const location = useLocation()
     const { user, logout } = useContext(UserContext)
-
-    useEffect(() => {
-        console.log(user);
-    }, [user])
 
     const handleLogout = async () => {
         const response = await logoutUser()
         localStorage.removeItem('jwt')
+
         if (response && +response.EC === 0) {
             logout()
+            localStorage.setItem('isLogin', false)
             toast.success('Đăng xuất thành công!')
             navigate('/login')
         } else {
@@ -33,17 +30,17 @@ const NavHeader = () => {
 
     return (
         <>
-            {(user && user.isAuthenticated || location.pathname === '/login') &&
+            {(user && user.isAuthenticated) &&
                 <Navbar expand="lg" className="bg-body-tertiary">
                     <Container>
-                        <Navbar.Brand>Quản lý người dùng</Navbar.Brand>
+                        <Navbar.Brand>FULLSTACK - JWT</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
                                 <NavLink className='nav-link' to='/'>Trang chủ</NavLink>
-                                <NavLink className='nav-link' to='/group-role'>Quyền hạn nhóm</NavLink>
-                                <NavLink className='nav-link' to='/roles'>Quyền hạn</NavLink>
                                 <NavLink className='nav-link' to='/users'>Quản lý người dùng</NavLink>
+                                <NavLink className='nav-link' to='/roles'>Quản lý quyền hạn</NavLink>
+                                <NavLink className='nav-link' to='/group-role'>Quyền hạn nhóm</NavLink>
                             </Nav>
                             <Nav>
                                 {user && user.isAuthenticated ?
