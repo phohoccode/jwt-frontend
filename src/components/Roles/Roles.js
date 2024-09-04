@@ -5,8 +5,6 @@ import { toast } from 'react-toastify'
 
 import { createRoles } from '../../services/roleService';
 import TableRoles from './TableRoles';
-import ModalDeleteRole from './ModalDeleteRole';
-import ModalUpdateRole from './ModalUpdateRole';
 
 function Roles() {
     const dataChildDefault = { url: '', description: '', isValidUrl: true }
@@ -117,7 +115,6 @@ function Roles() {
             </div>
             <div className='container'>
                 <hr />
-                <h4 className='mb-3'>Danh sách quyền hạn</h4>
                 <TableRoles ref={childRef} />
             </div>
 

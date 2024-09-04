@@ -163,12 +163,12 @@ function User() {
                 <div className='user-pagination d-flex justify-content-center'>
                     {totalPages > 0 &&
                         <ReactPaginate
-                            nextLabel="next >"
+                            nextLabel="Sau"
                             onPageChange={handlePageClick}
                             pageRangeDisplayed={3}
                             marginPagesDisplayed={2}
                             pageCount={totalPages}
-                            previousLabel="< previous"
+                            previousLabel="Trước"
                             pageClassName="page-item"
                             pageLinkClassName="page-link"
                             previousClassName="page-item"

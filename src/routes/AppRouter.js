@@ -7,6 +7,7 @@ import User from "../components/ManageUsers/User";
 import PrivateRouter from "./PrivateRouter";
 import Roles from "../components/Roles/Roles";
 import GroupRole from "../components/GroupRole/GroupRole";
+import Info from "../components/ManageUsers/Info";
 
 function AppRouter() {
     return (
@@ -40,6 +41,7 @@ function AppRouter() {
                 />
 
                 <Route path='/' element={<Home />} />
+                <Route path='/info' element={<Info />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='*' element={<Home />} />

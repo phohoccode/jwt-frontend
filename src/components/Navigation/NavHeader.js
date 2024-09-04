@@ -47,7 +47,7 @@ const NavHeader = () => {
                                     <>
                                         <Nav.Item className='nav-link'>Xin chào! {user.account.username}</Nav.Item>
                                         <NavDropdown title="Tuỳ chọn" id="basic-nav-dropdown">
-                                            <NavDropdown.Item>Thay đổi mật khẩu</NavDropdown.Item>
+                                            <NavLink className='nav-link' to='/info'>Thông tin người dùng</NavLink>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item onClick={() => handleLogout()}>
                                                 Đăng xuất

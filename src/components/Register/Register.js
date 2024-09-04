@@ -107,7 +107,7 @@ function Register() {
         if (isValid) {
             const response = await registerNewUser(userData) 
 
-            if (+response.EC === 0) {
+            if (response && +response.EC === 0) {
                 toast.success(response.EM)
                 navigate('/login')
             } else {
