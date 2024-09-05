@@ -1,4 +1,3 @@
-// import axios from "axios";
 import axios from '../setup/axios'
 
 const registerNewUser = (userData) => {
@@ -7,6 +6,14 @@ const registerNewUser = (userData) => {
 
 const loginUser = (userData) => {
     return axios.post('/api/v1/login', userData);
+}
+
+const findAccount = (data) => {
+    return axios.post('/api/v1/login/identify', { data });
+}
+
+const resetPassword = (data) => {
+    return axios.put('/api/v1/reset-password', { data });
 }
 
 const fetchAllUser = (currentPage, currentLimit) => {
@@ -38,6 +45,6 @@ const logoutUser = () => {
 }
 
 export {
-    registerNewUser, createNewUser, updateCurrentUser,logoutUser,
-    loginUser, fetchAllUser, deleteUser, fetchGroup, getUserAccount
+    registerNewUser, createNewUser, updateCurrentUser, logoutUser, findAccount,
+    loginUser, fetchAllUser, deleteUser, fetchGroup, getUserAccount, resetPassword
 }

@@ -49,7 +49,6 @@ function Login() {
         const response = await loginUser(userData)
 
         if (response && response.EC === 0) {
-            console.log(response)
             const groupWithRoles = response.DT.groupWithRoles
             const email = response.DT.email
             const username = response.DT.username
@@ -108,7 +107,7 @@ function Login() {
                         }
                     />
                     <button onClick={() => handleLogin()} className='btn btn-primary'>Đăng nhập</button>
-                    <a href='#' className='text-center'>Quên mật khẩu?</a>
+                    <Link to={'/login/identify'} className='text-center'>Quên mật khẩu?</Link>
                     <hr />
                     <div className='d-flex justify-content-center'>
                         <Link to={'/register'} className='btn btn-success'>Tạo tài khoản mới</Link>

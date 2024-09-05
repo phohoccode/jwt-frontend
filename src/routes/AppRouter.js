@@ -8,6 +8,8 @@ import PrivateRouter from "./PrivateRouter";
 import Roles from "../components/Roles/Roles";
 import GroupRole from "../components/GroupRole/GroupRole";
 import Info from "../components/ManageUsers/Info";
+import FindAccount from "../components/FindAccount/FindAccount";
+import ResetPassword from "../components/ResetPassword/ResetPassword";
 
 function AppRouter() {
     return (
@@ -43,6 +45,8 @@ function AppRouter() {
                 <Route path='/' element={<Home />} />
                 <Route path='/info' element={<Info />} />
                 <Route path='/login' element={<Login />} />
+                <Route path='/login/identify' element={<FindAccount />} />
+                <Route path='/reset-password' element={<ResetPassword />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='*' element={<Home />} />
             </Routes>
